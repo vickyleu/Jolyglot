@@ -2,7 +2,6 @@ apply plugin: 'com.android.application'
 
 android {
   compileSdkVersion 29
-  buildToolsVersion "30.0.0"
 
   defaultConfig {
     applicationId "io.victoralbertos.jolyglot"
@@ -24,6 +23,4 @@ dependencies {
   implementation project(':gson')
   implementation project(':jackson')
   implementation project(':moshi')
-
-  testImplementation 'junit:junit:4.12'
 }

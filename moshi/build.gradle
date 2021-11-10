@@ -1,10 +1,4 @@
 apply plugin: 'java'
-apply plugin: 'maven'
-
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
-
-group = 'com.github.VictorAlbertos'
 
 configurations {
   provided
@@ -27,11 +21,6 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
   from javadoc.destinationDir
 }
 
-artifacts {
-  archives sourcesJar
-  archives javadocJar
-
-}
 
 dependencies {
   implementation project(':api')
@@ -40,5 +29,9 @@ dependencies {
 
   compileTestJava.dependsOn tasks.getByPath(':api:testClasses')
   testImplementation files(project(':api').sourceSets.test.output.classesDirs)
-  testImplementation 'junit:junit:4.13'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }

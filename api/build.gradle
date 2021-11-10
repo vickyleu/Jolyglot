@@ -1,23 +1,42 @@
 apply plugin: 'java'
 apply plugin: 'base'
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
-
 buildscript {
   repositories {
-    mavenCentral()
-    jcenter()
-    maven {
-      url "https://plugins.gradle.org/m2/"
+    all { ArtifactRepository repo ->
+      if(repo instanceof MavenArtifactRepository){
+        def url = repo.url.toString()
+        if (
+        (url.startsWith('http://repo1.maven.org/maven2'))||
+                (url.startsWith('https://repo1.maven.org/maven2'))||
+                (url.startsWith('http://jcenter.bintray.com'))||
+                (url.startsWith('https://jcenter.bintray.com'))||
+                (url.startsWith('http://maven.google.com'))||
+                (url.startsWith('https://maven.google.com'))
+        ){
+          remove repo
+        }
+      }
+    }
+    maven { url 'https://maven.aliyun.com/repository/central'
+      allowInsecureProtocol = true
+    }
+    maven { url 'https://maven.aliyun.com/repository/public'
+      allowInsecureProtocol = true
+    }
+    maven { url 'https://maven.aliyun.com/repository/jcenter'
+      allowInsecureProtocol = true
+    }
+    maven { url 'https://maven.aliyun.com/repository/google'
+      allowInsecureProtocol = true
+    }
+    maven { url 'https://maven.aliyun.com/repository/gradle-plugin'
+      allowInsecureProtocol = true
     }
   }
 }
 
 apply plugin: 'idea'
-apply plugin: 'maven'
-
-group = 'com.github.VictorAlbertos'
 
 configurations {
   provided
@@ -40,11 +59,10 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
   from javadoc.destinationDir
 }
 
-artifacts {
-  archives sourcesJar
-  archives javadocJar
+dependencies {
 }
 
-dependencies {
-  testImplementation 'junit:junit:4.13'
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
