@@ -1,72 +1,25 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-
 buildscript {
     repositories {
-        all { ArtifactRepository repo ->
-            if(repo instanceof MavenArtifactRepository){
-                def url = repo.url.toString()
-                if (
-                (url.startsWith('http://repo1.maven.org/maven2'))||
-                        (url.startsWith('https://repo1.maven.org/maven2'))||
-                        (url.startsWith('http://jcenter.bintray.com'))||
-                        (url.startsWith('https://jcenter.bintray.com'))||
-                        (url.startsWith('http://maven.google.com'))||
-                        (url.startsWith('https://maven.google.com'))
-                ){
-                    remove repo
-                }
-            }
-        }
-        maven { url 'https://maven.aliyun.com/repository/central'
-            allowInsecureProtocol = true
-        }
-        maven { url 'https://maven.aliyun.com/repository/public'
-            allowInsecureProtocol = true
-        }
-        maven { url 'https://maven.aliyun.com/repository/jcenter'
-            allowInsecureProtocol = true
-        }
-        maven { url 'https://maven.aliyun.com/repository/google'
-            allowInsecureProtocol = true
-        }
-        maven { url 'https://maven.aliyun.com/repository/gradle-plugin'
-            allowInsecureProtocol = true
+        google()
+        jcenter()
+        mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2/"
         }
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:7.0.3"
+        classpath "com.android.tools.build:gradle:4.0.0"
+        classpath 'net.sf.proguard:proguard-gradle:6.0.3'
     }
 }
 
 allprojects {
     repositories {
-        all { ArtifactRepository repo ->
-            if(repo instanceof MavenArtifactRepository){
-                def url = repo.url.toString()
-                if (
-                (url.startsWith('http://repo1.maven.org/maven2'))||
-                        (url.startsWith('https://repo1.maven.org/maven2'))||
-                        (url.startsWith('http://jcenter.bintray.com'))||
-                        (url.startsWith('https://jcenter.bintray.com'))||
-                        (url.startsWith('http://maven.google.com'))||
-                        (url.startsWith('https://maven.google.com'))
-                ){
-                    remove repo
-                }
-            }
-        }
-        maven { url 'https://maven.aliyun.com/repository/central'
-            allowInsecureProtocol = true
-        }
-        maven { url 'https://maven.aliyun.com/repository/public'
-            allowInsecureProtocol = true
-        }
-        maven { url 'https://maven.aliyun.com/repository/jcenter'
-            allowInsecureProtocol = true
-        }
-        maven { url 'https://maven.aliyun.com/repository/google'
-            allowInsecureProtocol = true
-        }
+        mavenCentral()
+        google()
+        maven { url "https://jitpack.io" }
+        jcenter()
     }
 }
 

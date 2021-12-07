@@ -1,38 +1,41 @@
-apply plugin: 'java'
+plugins {
+    id 'java'
+    id 'maven-publish'
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+group = 'com.github.vickyleu.Jolyglot'
+version = '1.0.0'
+
 
 configurations {
-    provided
+    compileOnly
 }
 
 sourceSets {
     main {
-        compileClasspath += configurations.provided
-        runtimeClasspath += configurations.provided
+        compileClasspath += configurations.compileOnly
+        runtimeClasspath += configurations.compileOnly
     }
 }
-
-task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-
 
 dependencies {
     implementation project(':api')
     implementation project(':common')
-
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.10.0'
-
-    compileTestJava.dependsOn tasks.getByPath(':api:testClasses')
-    testImplementation files(project(':api').sourceSets.test.output.classesDirs)
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.0'
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+afterEvaluate {
+    publishing {
+        publications {
+            maven(MavenPublication) {
+                groupId = 'com.github.vickyleu.Jolyglot'
+                artifactId = 'jackson'
+                version = '1.0.0'
+                from components.java
+            }
+        }
+    }
 }
